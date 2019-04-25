@@ -44,8 +44,13 @@ class Log {
     public static func test(_ logMessage: Any, classPath: String = #file, functionName: String = #function, lineNumber: Int = #line) {
         let fileName = URLUtil.getNameFromStringPath(classPath)
         if logLevel.rawValue <= LogLevel.TEST.rawValue {
-            let log = OSLog(subsystem: SUBSYSTEM, category: "TEST  ❇️❇️❇️❇️")
-            os_log("%@:%@:%d:: %@", log: log, fileName, functionName, lineNumber, "\(logMessage)")
+            if #available(iOS 10.0, *) {
+                let log = OSLog(subsystem: SUBSYSTEM, category: "TEST  ❇️❇️❇️❇️")
+                os_log("%@:%@:%d:: %@", log: log, fileName, functionName, lineNumber, "\(logMessage)")
+            } else {
+                NSLog("%@:%@:%d:: %@", "TEST  ❇️❇️❇️❇️", fileName, functionName, lineNumber, "\(logMessage)")
+            }
+            
         }
     }
     
@@ -65,8 +70,12 @@ class Log {
     public static func error(_ logMessage: Any, classPath: String = #file, functionName: String = #function, lineNumber: Int = #line) {
         let fileName = URLUtil.getNameFromStringPath(classPath)
         if logLevel.rawValue <= LogLevel.ERROR.rawValue {
-            let log = OSLog(subsystem: SUBSYSTEM, category: "ERROR 🛑🛑🛑🛑")
-            os_log("%@:%@:%d:: %@", log: log, fileName, functionName, lineNumber, "\(logMessage)")
+            if #available(iOS 10.0, *) {
+                let log = OSLog(subsystem: SUBSYSTEM, category: "ERROR 🛑🛑🛑🛑")
+                os_log("%@:%@:%d:: %@", log: log, fileName, functionName, lineNumber, "\(logMessage)")
+            } else {
+                NSLog("%@:%@:%d:: %@", "ERROR  🛑🛑🛑🛑", fileName, functionName, lineNumber, "\(logMessage)")
+            }
         }
     }
     
@@ -86,8 +95,12 @@ class Log {
     public static func monitor(_ logMessage: Any, classPath: String = #file, functionName: String = #function, lineNumber: Int = #line) {
         let fileName = URLUtil.getNameFromStringPath(classPath)
         if logLevel.rawValue <= LogLevel.ERROR.rawValue {
+            if #available(iOS 10.0, *) {
             let log = OSLog(subsystem: SUBSYSTEM, category: "MONITOR 🔥🔥🔥🔥")
             os_log("%@:%@:%d:: %@", log: log, fileName, functionName, lineNumber, "\(logMessage)")
+            } else {
+                NSLog("%@:%@:%d:: %@", "MONITOR 🔥🔥🔥🔥", fileName, functionName, lineNumber, "\(logMessage)")
+            }
         }
     }
     
@@ -107,8 +120,12 @@ class Log {
     public static func warn(_ logMessage: Any, classPath: String = #file, functionName: String = #function, lineNumber: Int = #line) {
         let fileName = URLUtil.getNameFromStringPath(classPath)
         if logLevel.rawValue <= LogLevel.WARN.rawValue {
+            if #available(iOS 10.0, *) {
             let log = OSLog(subsystem: SUBSYSTEM, category: "WARN  ⚠️⚠️⚠️⚠️")
             os_log("%@:%@:%d:: %@", log: log, fileName, functionName, lineNumber, "\(logMessage)")
+            } else {
+                NSLog("%@:%@:%d:: %@", "WARN  ⚠️⚠️⚠️⚠️", fileName, functionName, lineNumber, "\(logMessage)")
+            }
         }
     }
     
@@ -128,8 +145,12 @@ class Log {
     public static func info(_ logMessage: Any, classPath: String = #file, functionName: String = #function, lineNumber: Int = #line) {
         let fileName = URLUtil.getNameFromStringPath(classPath)
         if logLevel.rawValue <= LogLevel.INFO.rawValue {
+            if #available(iOS 10.0, *) {
             let log = OSLog(subsystem: SUBSYSTEM, category: "INFO  🖤🖤🖤🖤")
             os_log("%@:%@:%d:: %@", log: log, fileName, functionName, lineNumber, "\(logMessage)")
+            } else {
+                NSLog("%@:%@:%d:: %@", "INFO  🖤🖤🖤🖤", fileName, functionName, lineNumber, "\(logMessage)")
+            }
         }
     }
     
@@ -149,8 +170,12 @@ class Log {
     public static func debug(_ logMessage: Any?..., classPath: String = #file, functionName: String = #function, lineNumber: Int = #line) {
         let fileName = URLUtil.getNameFromStringPath(classPath)
         if logLevel.rawValue <= LogLevel.DEBUG.rawValue {
+            if #available(iOS 10.0, *) {
             let log = OSLog(subsystem: SUBSYSTEM, category: "DEBUG 🐝🐝🐝🐝")
             os_log("%@:%@:%d:: %@", log: log, fileName, functionName, lineNumber, "\(logMessage)")
+            } else {
+                NSLog("%@:%@:%d:: %@", "DEBUG 🐝🐝🐝🐝", fileName, functionName, lineNumber, "\(logMessage)")
+            }
         }
     }
     

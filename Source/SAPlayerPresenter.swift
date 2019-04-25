@@ -113,7 +113,6 @@ class SAPlayerPresenter {
         })
     }
     
-    @available(iOS 10.0, *)
     func handleLockscreenInfo(info: SALockScreenInfo) {
         self.mediaInfo = info
     }

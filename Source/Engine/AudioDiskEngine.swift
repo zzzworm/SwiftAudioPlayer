@@ -70,14 +70,25 @@ class AudioDiskEngine: AudioEngine {
         }
         
         
-        Timer.scheduledTimer(withTimeInterval: 0.2, repeats: true) { [weak self] (timer: Timer) in
-            guard let _ = self else { return }
-            self?.timer = timer
-            self?.updateIsPlaying()
-            self?.updateNeedle()
+        if #available(iOS 10.0, *) {
+            Timer.scheduledTimer(withTimeInterval: 0.2, repeats: true) { [weak self] (timer: Timer) in
+                guard let _ = self else { return }
+                self?.timer = timer
+                self?.updateIsPlaying()
+                self?.updateNeedle()
+            }
+        } else {
+            Timer.scheduledTimer(timeInterval: 0.2, target: self, selector: #selector(timerFired), userInfo: nil, repeats: true)
         }
         
         scheduleAudioFile()
+    }
+    
+    @objc private func timerFired(){
+        
+        self.timer = timer
+        self.updateIsPlaying()
+        self.updateNeedle()
     }
     
     private func scheduleAudioFile() {

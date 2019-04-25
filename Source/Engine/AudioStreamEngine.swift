@@ -142,17 +142,29 @@ class AudioStreamEngine: AudioEngine {
         
         let timeInterval = 1 / (converter.engineAudioFormat.sampleRate / Double(PCM_BUFFER_SIZE))
         
-        Timer.scheduledTimer(withTimeInterval: timeInterval / 32, repeats: true) { [weak self] (timer: Timer) in
-            self?.timer = timer
-            self?.pollForNextBuffer()
-            self?.updateNetworkBufferRange()
-            self?.updateNeedle()
-            self?.updateIsPlaying()
-            self?.updateDuration()
+        if #available(iOS 10.0, *) {
+            Timer.scheduledTimer(withTimeInterval: timeInterval / 32, repeats: true) { [weak self] (timer: Timer) in
+                self?.timer = timer
+                self?.pollForNextBuffer()
+                self?.updateNetworkBufferRange()
+                self?.updateNeedle()
+                self?.updateIsPlaying()
+                self?.updateDuration()
+            }
+        }  else {
+            Timer.scheduledTimer(timeInterval: 0.2, target: self, selector: #selector(timerFired), userInfo: nil, repeats: true)
         }
     }
     
     //MARK:- Timer loop
+    @objc private func timerFired(){
+        self.timer = timer
+        self.pollForNextBuffer()
+        self.updateNetworkBufferRange()
+        self.updateNeedle()
+        self.updateIsPlaying()
+        self.updateDuration()
+    }
     
     //Called when
     //1. First time audio is finally parsed

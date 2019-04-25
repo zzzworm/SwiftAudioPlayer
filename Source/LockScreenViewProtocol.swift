@@ -35,7 +35,7 @@ protocol LockScreenViewProtocol {
 }
 
 extension LockScreenViewProtocol {
-    @available(iOS 10.0, *)
+   
     func setLockScreenInfo(withMediaInfo info: SALockScreenInfo, duration: Duration) {
         var nowPlayingInfo:[String : Any] = [:]
         
@@ -58,14 +58,27 @@ extension LockScreenViewProtocol {
         nowPlayingInfo[MPMediaItemPropertyReleaseDate] = Date(timeIntervalSince1970: TimeInterval(releaseDate))
 
         if let artwork = info.artwork {
-            nowPlayingInfo[MPMediaItemPropertyArtwork] =
-            MPMediaItemArtwork(boundsSize: artwork.size) { size in
-                return artwork
+            if #available(iOS 10.0, *) {
+                let mpArtwrok = MPMediaItemArtwork(boundsSize: artwork.size) { size in
+                    return artwork
+                }
+                nowPlayingInfo[MPMediaItemPropertyArtwork] = mpArtwrok
+            } else {
+                let mpArtwrok = MPMediaItemArtwork(image: artwork)
+                nowPlayingInfo[MPMediaItemPropertyArtwork] = mpArtwrok
             }
+            
+            
         } else {
-            nowPlayingInfo[MPMediaItemPropertyArtwork] = MPMediaItemArtwork(boundsSize: UIImage().size) { size in
-                return UIImage()
+            if #available(iOS 10.0, *) {
+                let mpArtwrok = MPMediaItemArtwork(boundsSize: UIImage().size) { size in
+                    return UIImage()
+                }
+                nowPlayingInfo[MPMediaItemPropertyArtwork] = mpArtwrok
+            } else {
+                nowPlayingInfo[MPMediaItemPropertyArtwork] = MPMediaItemArtwork(image: UIImage())
             }
+            
         }
         
         
